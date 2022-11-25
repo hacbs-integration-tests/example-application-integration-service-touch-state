@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: component-sample
+  namespace: integration-service
+spec:
+  replicas: 1
+  selector: {}
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      containers:
+      - env:
+        - name: HELLO
+          value: WORLD
+        image: |
+          quay.io/redhat-appstudio/sample-image@sha256:7bfaa9b4a3733612834c5658f9ffe6738cb78e450aee010ed47935dcf28600bc
+        name: container-image
+        resources: {}
+status: {}
