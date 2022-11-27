@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: component-sample
+  namespace: integration-service
+spec:
+  replicas: 1
+  selector: {}
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      containers:
+      - env:
+        - name: KUBECO
+          value: ~/.kube/confo
+        image: |
+          quay.io/redhat-appstudio/sample-image@sha256:620e9c1f98e4730c1968dd7e14627cdff6689e377fa8ff7d5be4fd3540b57543
+        name: container-image
+        resources: {}
+status: {}
