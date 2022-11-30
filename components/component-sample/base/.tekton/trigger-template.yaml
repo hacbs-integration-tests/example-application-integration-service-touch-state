@@ -1,0 +1,46 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  creationTimestamp: null
+  name: component-sample
+  namespace: integration-service
+spec:
+  params:
+  - name: git-revision
+  resourcetemplates:
+  - apiVersion: tekton.dev/v1beta1
+    kind: PipelineRun
+    metadata:
+      annotations:
+        build.appstudio.openshift.io/application: example-application
+        build.appstudio.openshift.io/build: "true"
+        build.appstudio.openshift.io/component: component-sample
+        build.appstudio.openshift.io/type: build
+        build.appstudio.openshift.io/version: "0.1"
+        pipelines.appstudio.openshift.io/type: build
+      creationTimestamp: null
+      generateName: component-sample-
+      labels:
+        build.appstudio.openshift.io/application: example-application
+        build.appstudio.openshift.io/build: "true"
+        build.appstudio.openshift.io/component: component-sample
+        build.appstudio.openshift.io/type: build
+        build.appstudio.openshift.io/version: "0.1"
+        pipelines.appstudio.openshift.io/type: build
+      namespace: integration-service
+    spec:
+      params:
+      - name: git-url
+        value: https://github.com/stuartwdouglas/code-with-quarkus
+      - name: output-image
+        value: quay.io/redhat-appstudio/user-workload:integration-service-component-sample-$(tt.params.git-revision)
+      pipelineRef:
+        bundle: quay.io/redhat-appstudio/build-templates-bundle:13f5d9c921b3f727684a00084037f673a0dc4273
+        name: java-builder
+      workspaces:
+      - name: workspace
+        persistentVolumeClaim:
+          claimName: appstudio
+        subPath: component-sample/$(tt.params.git-revision)
+    status: {}
+status: {}
